@@ -1,10 +1,18 @@
 [build]
-target = "riscv32imc-esp-espidf"
+target = "riscv32imc-unknown-none-elf"
 
-[target.riscv32imc-esp-espidf]
-linker = "ldproxy"
-rustflags = ["-C", "default-linker-libraries"]
+[target.riscv32imc-unknown-none-elf]
+runner = "espflash --monitor"
+rustflags = [
+  "-C", "link-arg=-Tlinkall.x"
+]
+
+# for testing: you can specify this target to see atomic emulation in action
+[target.riscv32imac-unknown-none-elf]
+runner = "espflash --monitor"
+rustflags = [
+  "-C", "link-arg=-Tlinkall.x"
+]
 
 [unstable]
-build-std = ["std", "panic_abort"]
-build-std-features = ["panic_immediate_abort"]
+build-std = [ "core" ]
